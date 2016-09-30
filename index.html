@@ -1,0 +1,413 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Traduction de la doc de Python et internationalisation.</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown>
+          <script type="text/template">
+            # L'internationalisation :(
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            # i18n :)
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## i18n vs l10n
+
+            - i18n : Rendre possible la localisation dans n’importe quelle langue
+            - l10n : Ajouter une langue
+
+            <aside class="notes">
+              C'est de la préparation (~une fois pour toute)
+            </aside
+               </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            [Citation du W3C](https://www.w3.org/International/questions/qa-i18n):
+
+            > “Internationalization is the design and development of a product, application or document content that enables easy localization for target audiences that vary in culture, region, or language.
+            > Localization refers to the adaptation of a product, application or document content to meet the language, cultural and other requirements of a specific target market (a locale).”
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## Localisation
+            La localization ne concerne pas que la traduction, mais toutes les spécificités régionales, culturelles, telles que la monnaie, la disposition clavier, les symboles, icones, couleurs, formats numériques, formats de dates, ordre des caractères, lois, …
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## Extrait de `locale.h`
+
+            ```
+            #define LC_CTYPE         __LC_CTYPE
+            #define LC_NUMERIC       __LC_NUMERIC
+            #define LC_TIME          __LC_TIME
+            #define LC_COLLATE       __LC_COLLATE
+            #define LC_MONETARY      __LC_MONETARY
+            #define LC_MESSAGES      __LC_MESSAGES
+            #define LC_ALL           __LC_ALL
+            #define LC_PAPER         __LC_PAPER
+            #define LC_NAME          __LC_NAME
+            #define LC_ADDRESS       __LC_ADDRESS
+            #define LC_TELEPHONE     __LC_TELEPHONE
+            #define LC_MEASUREMENT   __LC_MEASUREMENT
+            #define LC_IDENTIFICATION __LC_IDENTIFICATION
+            ```
+            <aside class="notes">
+              La traduction est une petite partie de
+              l'internationalisation de la GNU C Library, définit par
+              POSIX pour donner des idées de "qu'est-ce qu'on couvre
+              quand on localise":
+            </aside>
+          </script>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## i18n: Processus
+
+              - Marquer les chaines : `_("...")` par convention
+              - Générer le `.po`: `gettext`, `pybabel extract`, `django-admin.py makemessages`, `sphinx-build -b gettext`…
+              - Les traducteurs traduisent (transifex.com, …)
+              - `.po` to `.mo`: msgfmt, django-admin.py compilemessages
+              <aside class="notes">
+                - le _ est une convention: (gettext, django.utils.translation.urgettext as _, ...)
+                - `po` pour `portable object`
+                - `mo` pour `machine object`
+              </aside>
+            </script>
+          </section>
+          <section data-markdown>
+            ## Python
+            ```
+            print(_('This is a translatable string.'))
+            ```
+
+            ## Jinja2
+            ```
+            <p><strong>{% trans %}Parts of the documentation:{% endtrans %}</strong></p>
+            ```
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## `.po` file
+              ```
+              #: ../Doc/tutorial/appendix.rst:11 ../Doc/tutorial/interpreter.rst:90
+              msgid "Interactive Mode"
+              msgstr "Mode interactif"
+
+              #: ../Doc/tutorial/appendix.rst:16
+              msgid "Error Handling"
+              msgstr "Gestion des erreurs"
+              ```
+            </script>
+          </section>
+          <section data-markdown>
+            https://docs.python.org/3.5/library/i18n.html
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## String formatting
+              ````
+              _("Hello {name}").format()
+              ```
+              ou
+              ```
+              _("Hello {name}".format())
+              ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## String formatting
+              ```
+              _("{} likes {}")
+              ```
+              ou
+              ```
+              _("{0} likes {1}")
+              ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## String formatting
+              ```
+              _("Today is {0} {1}")
+              ```
+              ou
+              ```
+              _("Today is {month} {day}")
+              ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## String formatting
+              ```
+              _("That is a ") + car.color + $(" car")
+              ```
+              > "C'est une bleu voiture"
+            </script>
+          </section>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## Locale
+
+            https://docs.python.org/3.5/library/locale.html
+
+            `dpkg-reconfigure locales`
+            ```
+            >>> locale.setlocale(locale.LC_ALL, 'fr_FR.utf-8')
+            'fr_FR.utf-8'
+            >>> datetime.datetime.now().strftime("%c")
+            'mer. 13 juil. 2016 00:36:05 '
+            >>> locale.setlocale(locale.LC_ALL, 'en_US.utf-8')
+            'en_US.utf-8'
+            >>> datetime.datetime.now().strftime("%c")
+            'Wed 13 Jul 2016 12:36:42 AM '
+            ```
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## gettext
+
+            https://docs.python.org/3.5/library/gettext.html
+
+            pgettext: Permet de donner du contexte à une traduction
+
+            Basiquement, le genre, l'emplacement (menu, ...), ou n'importe quel autre désambiguation, typiquement "date" pouvant être un fruit ou calendaire, un contexte est necessaire, car ces deux mots peuvent être différents dans d'autres langues.
+          </script>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              # potpie
+
+              potpie génère des traductions de test, utiles pour trouver les appels manquants à gettext.
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ```
+              $ pip install potpie
+              ```
+              ```
+              $ potpie --type unicode 3.5/tutorial.po potpie/tutorial.po
+              ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ```
+              #: ../Doc/tutorial/appendix.rst:5
+              msgid "Appendix"
+              msgstr "Ȧƥƥḗƞḓīẋ"
+
+              #: ../Doc/tutorial/appendix.rst:16
+              msgid "Error Handling"
+              msgstr "Ḗřřǿř Ħȧƞḓŀīƞɠ"
+              ```
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## Faire, ne pas faire
+
+              > Penser que le pluriel se gère pareil dans toutes les langues
+
+              Pas bien:
+              ```
+              print(_("{} file{} deleted").format(n, "s" if n > 1 else ""))
+              ```
+
+              Bien:
+              ```
+              print(ngettext("{nb} file removed",
+                             "{nb} files removed", n).format(n))
+              ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## Faire, ne pas faire
+
+              > Penser que les traducteurs pourront toujours mettre les mots dans le même ordre
+
+              Pas bien:
+              ```
+              print(_("%s %s %s").format(
+                  user_login,
+                  gettext("likes"),
+                  fav_ingredient));
+              ```
+              Bien:
+              ```
+              print(_("{username} likes {ingredent}").format(
+                  user_login,
+                  fav_ingredient));
+              ```
+            </script>
+          </section>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            # docs.python.org/fr
+
+            Autres projets de traduction:
+            - http://docs.python.jp/3/
+            - http://docs.python.org.ar/tutorial/3/real-index.html
+
+            La doc de Python utilise `sphinx-doc`.
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## Historique du projet
+
+            - Projet né en 2012 (ou avant ?)
+            - 2013, 2014 : au point mort
+            - Fin 2015 : Projet relancé
+            - 2016 : On avance pour pousser la traduction sur docs.python.org/fr/ http://bugs.python.org/issue26546
+          </script>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## Pourquoi
+              <img data-src="img/helping.jpg" />
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              - Je m'ennuie dans le RER, alors je traduis, et vous ?
+              - C'est un outil d'évangélisation
+              - La langue ne devrait pas être un frein pour apprendre le Python, peu importe l'age et le niveau de scolarisation
+              - Il n'y a aucune raison à ce que l'anglais soit un prérequis de Python, au contraire, Python pourrait être un moyen de se familiariser avec l'anglais
+              - Apprendre deux langues en même temps, c'est un peu trop meta.
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## Github
+              https://github.com/AFPy/python_doc_fr/
+            </script>
+          </section>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## Progression
+
+            - 2016-01: 6%
+            - 2016-02: 11%
+            - 2016-03: 14%
+            - 2016-04: 22%
+            - 2016-05: 23%
+            - 2016-06: Tentative de merge avec docs.python.org
+
+            12 contributeurs depuis 2012
+          </script>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## Comment on fait
+              ```
+              git clone https://github.com/AFPy/python_doc_fr.git
+              …
+              poedit 3.5/library.po
+              …
+              make
+              ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              <img data-src="img/pyfr.png" />
+            </script>
+          </section>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## docs.python.org/fr/
+
+            En progrès:
+            - https://github.com/python/docsbuild-scripts/pull/1
+            - http://bugs.python.org/issue26546
+          </script>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## Et après ?
+              - https://docs.python.org/jp/
+              - https://docs.python.org/es/
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## Et après ?
+
+              Travailler sur quelques améliorations de
+              sphinx-doc comme "Highlight untranslated paragraphs" :
+              https://github.com/sphinx-doc/sphinx/issues/1246
+            </script>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      width: 960,
+      height: 700,
+      margin: 0.1,
+      history: true,
+
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+      ]
+      });
+    </script>
+  </body>
+</html>
