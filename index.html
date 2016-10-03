@@ -93,10 +93,13 @@
             <script type="text/template">
               ## i18n: Processus
 
-              - Marquer les chaines : `_("...")` par convention
-              - Générer le `.po`: `gettext`, `pybabel extract`, `django-admin.py makemessages`, `sphinx-build -b gettext`…
-              - Les traducteurs traduisent (transifex.com, …)
-              - `.po` to `.mo`: msgfmt, django-admin.py compilemessages
+              1 - Marquer les chaines : `_("...")` par convention
+
+              2 - Générer le `.po`: `gettext`, `pybabel extract`, `django-admin.py makemessages`, `sphinx-build -b gettext`…
+
+              3 - Les traducteurs traduisent (transifex.com, …)
+
+              4 - `.po` to `.mo`: msgfmt, django-admin.py compilemessages
               <aside class="notes">
                 - le _ est une convention: (gettext, django.utils.translation.urgettext as _, ...)
                 - `po` pour `portable object`
@@ -117,7 +120,7 @@
           </section>
           <section data-markdown>
             <script type="text/template">
-              ## `.po` file
+              ## fichier `.po`
               ```
               #: ../Doc/tutorial/appendix.rst:11 ../Doc/tutorial/interpreter.rst:90
               msgid "Interactive Mode"
