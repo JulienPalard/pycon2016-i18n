@@ -72,53 +72,92 @@
             </section>
         </section>
         <section>
-            <section data-markdown>
-              <script type="text/template">
-                ## Extrait de `locale.h`
+          <section data-markdown>
+            <script type="text/template">
+              ## POSIX locale database
+              https://docs.python.org/3.5/library/locale.html
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## POSIX locale database
 
-                ```
-                #define LC_CTYPE         __LC_CTYPE
-                #define LC_NUMERIC       __LC_NUMERIC
-                #define LC_TIME          __LC_TIME
-                #define LC_COLLATE       __LC_COLLATE
-                #define LC_MONETARY      __LC_MONETARY
-                #define LC_MESSAGES      __LC_MESSAGES
-                #define LC_ALL           __LC_ALL
-                #define LC_PAPER         __LC_PAPER
-                #define LC_NAME          __LC_NAME
-                #define LC_ADDRESS       __LC_ADDRESS
-                #define LC_TELEPHONE     __LC_TELEPHONE
-                #define LC_MEASUREMENT   __LC_MEASUREMENT
-                #define LC_IDENTIFICATION __LC_IDENTIFICATION
-                ```
-                <aside class="notes">
-                  La traduction est une petite partie de
-                  l'internationalisation, définit par
-                  POSIX pour donner des idées de "qu'est-ce qu'on couvre
-                  quand on localise".
-		  Culture / Coutume.
-                </aside>
-              </script>
-            </section>
-            <section data-markdown>
-              <script type="text/template">
-                ## Locale
+              Extrait de `/usr/share/i18n/locales/fr_FR` :
 
-                https://docs.python.org/3.5/library/locale.html
+              ```
+              LC_MONETARY
+              int_curr_symbol     "<U0045><U0055><U0052><U0020>"
+              currency_symbol     "<U20AC>"
+              mon_decimal_point   "<U002C>"
+              mon_thousands_sep   "<U0020>"
+              mon_grouping        3
+              positive_sign       ""
+              negative_sign       "<U002D>"
+              int_frac_digits     2
+              ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## POSIX locale database
+              Liste des sections :
 
-                `dpkg-reconfigure locales`
-                ```
-                >>> locale.setlocale(locale.LC_ALL, 'fr_FR.utf-8')
-                'fr_FR.utf-8'
-                >>> datetime.datetime.now().strftime("%c")
-                'mer. 13 juil. 2016 00:36:05 '
-                >>> locale.setlocale(locale.LC_ALL, 'en_US.utf-8')
-                'en_US.utf-8'
-                >>> datetime.datetime.now().strftime("%c")
-                'Wed 13 Jul 2016 12:36:42 AM '
-                ```
-              </script>
-            </section>
+              -  LC_CTYPE
+              -  LC_COLLATE
+              -  LC_MESSAGES
+              -  LC_MONETARY
+              -  LC_NUMERIC
+              -  LC_TIME
+              -  LC_ADDRESS
+              -  …
+              <aside class="notes">
+                La traduction est une petite partie de
+                l'internationalisation, définit par
+                POSIX pour donner des idées de "qu'est-ce qu'on couvre
+                quand on localise".
+              Culture / Coutume.
+              </aside>
+            </script>
+          </section>
+          <section data-markdown>
+          <script type="text/template">
+            ## POSIX locale database
+            Tout est documenté !
+            ```
+            man 5 locale
+            ```
+            </script>
+          </section>
+          <section data-markdown>
+          <script type="text/template">
+              ## POSIX locale database
+              ```
+            # dpkg-reconfigure locales
+            ```
+          </script>
+        </section>
+          <section data-markdown>
+          <script type="text/template">
+            ## POSIX locale database
+              ```
+              >>> locale.setlocale(locale.LC_ALL, 'fr_FR.utf-8')
+              'fr_FR.utf-8'
+              >>> datetime.datetime.now().strftime("%c")
+              'mer. 13 juil. 2016 00:36:05 '
+            ```
+          </script>
+        </section>
+          <section data-markdown>
+          <script type="text/template">
+            ## POSIX locale database
+            ```
+              >>> locale.setlocale(locale.LC_ALL, 'en_US.utf-8')
+              'en_US.utf-8'
+              >>> datetime.datetime.now().strftime("%c")
+              'Wed 13 Jul 2016 12:36:42 AM '
+              ```
+            </script>
+          </section>
         </section>
         <section>
           <section data-markdown>
