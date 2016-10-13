@@ -162,32 +162,40 @@
         <section>
           <section data-markdown>
             <script type="text/template">
-              ## i18n: Processus
+              ## La traduction
+              <img data-src="img/translation.png" />
 
-              1 - Marquer les chaines : `_("...")` par convention
-
-              2 - Générer le `.po`: `gettext`, `pybabel extract`, `django-admin.py makemessages`, `sphinx-build -b gettext`…
-
-              3 - Les traducteurs traduisent (transifex.com, …)
-
-              4 - `.po` to `.mo`: msgfmt, django-admin.py compilemessages
-              <aside class="notes">
-                - le _ est une convention: (gettext, django.utils.translation.urgettext as _, ...)
-                - `po` pour `portable object`
-                - `mo` pour `machine object`
-              </aside>
+              (Image de http://www.sphinx-doc.org/en/stable/intl.html)
             </script>
           </section>
           <section data-markdown>
-            ## Python
-            ```
-            print(_('This is a translatable string.'))
-            ```
+            <script type="text/template">
+              ## La traduction
+              ### Préparation (i18n)
+              Marquer les chaines :
+              - Python
+              ```
+              print(_('This is a translatable string.'))
+              ```
 
-            ## Jinja2
-            ```
-            <p><strong>{% trans %}Parts of the documentation:{% endtrans %}</strong></p>
-            ```
+              - Jinja2
+              ```
+              <p><strong>{% trans %}Parts of the documentation:{% endtrans %}</strong></p>
+              ```
+              - …
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## La traduction
+              ### Générer le `.po`
+
+              - gettext
+              - pybabel extract
+              - django-admin.py makemessages
+              - sphinx-build -b gettext
+              - …
+            </script>
           </section>
           <section data-markdown>
             <script type="text/template">
@@ -204,7 +212,34 @@
             </script>
           </section>
           <section data-markdown>
-            https://docs.python.org/3.5/library/i18n.html
+            <script type="text/template">
+              ## La traduction
+              ### Traduire ou faire traduire
+
+              - poedit
+              - transifex.com
+              - Vé (Android)
+              - gted
+              - gtranslator
+              - lokalize
+              - betterpoeditor
+              - …
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## La traduction
+              ### Compiler le `.po` en `.mo`
+
+              - msgfmt
+              - django-admin compilemessages
+              - …
+              <aside class="notes">
+                - le _ est une convention: (gettext, django.utils.translation.urgettext as _, ...)
+                - `po` pour `portable object`
+                - `mo` pour `machine object`
+              </aside>
+            </script>
           </section>
         </section>
         <section data-markdown>
