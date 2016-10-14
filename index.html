@@ -367,6 +367,23 @@
             <script type="text/template">
               ## Faire, ne pas faire
 
+              > Donner une chaîne formattée à gettext
+
+              Pas bien:
+              ```
+              _("Hello {name}").format()
+              ```
+
+              Bien:
+              ```
+              _("Hello {name}".format())
+              ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## Faire, ne pas faire
+
               > Penser que le pluriel se gère pareil dans toutes les langues
 
               Pas bien:
